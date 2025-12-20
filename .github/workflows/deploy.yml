@@ -1,0 +1,53 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /var/www/feastbook
+
+            # Pull latest code
+            if [ -d ".git" ]; then
+              git fetch origin master
+              git reset --hard origin/master
+            else
+              git clone https://github.com/brokiloen/feastbook.git .
+            fi
+
+            # Install dependencies
+            composer install --no-dev --optimize-autoloader --no-interaction
+
+            # Run migrations
+            php artisan migrate --force
+
+            # Clear and cache
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+
+            # Set permissions
+            sudo chown -R ec2-user:nginx /var/www/feastbook
+            sudo chmod -R 775 /var/www/feastbook/storage
+            sudo chmod -R 775 /var/www/feastbook/bootstrap/cache
+
+            # Restart PHP-FPM
+            sudo systemctl reload php-fpm
+
+            echo "Deployment completed successfully!"
+
