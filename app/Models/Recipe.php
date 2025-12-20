@@ -1,0 +1,69 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
+
+class Recipe extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+        'instructions',
+        'photo',
+        'last_made',
+        'category_id',
+    ];
+
+    protected $casts = [
+        'last_made' => 'date',
+    ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($recipe) {
+            if (empty($recipe->slug)) {
+                $recipe->slug = Str::slug($recipe->name);
+            }
+        });
+
+        static::updating(function ($recipe) {
+            if ($recipe->isDirty('name') && !$recipe->isDirty('slug')) {
+                $recipe->slug = Str::slug($recipe->name);
+            }
+        });
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function ingredients(): HasMany
+    {
+        return $this->hasMany(Ingredient::class);
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    public function getPhotoUrlAttribute(): ?string
+    {
+        if ($this->photo) {
+            return asset('storage/' . $this->photo);
+        }
+        return null;
+    }
+}
+
