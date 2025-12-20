@@ -30,8 +30,12 @@ jobs:
               git clone https://github.com/brokiloen/feastbook.git .
             fi
 
-            # Install dependencies
+            # Install PHP dependencies
             composer install --no-dev --optimize-autoloader --no-interaction
+
+            # Install Node.js dependencies and build assets
+            npm ci
+            npm run build
 
             # Run migrations
             php artisan migrate --force
