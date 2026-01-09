@@ -42,20 +42,9 @@
             background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4c4a0' fill-opacity='0.3'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
         .header-banner {
-            background: 
-                linear-gradient(135deg, rgba(61, 35, 20, 0.95) 0%, rgba(114, 47, 55, 0.9) 50%, rgba(61, 35, 20, 0.95) 100%),
-                repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(201, 162, 39, 0.05) 10px, rgba(201, 162, 39, 0.05) 20px);
-            position: relative;
-        }
-        .header-banner::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a227' fill-opacity='0.08'%3E%3Cpath d='M40 0L20 20L40 40L20 60L40 80L60 60L40 40L60 20L40 0zM20 0L0 20L20 40L0 60L20 80L40 60L20 40L40 20L20 0z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            pointer-events: none;
+            background: url('{{ asset("images/header.webp") }}');
+            background-size: cover;
+            background-position: center;
         }
         .recipe-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -67,28 +56,26 @@
     </style>
 </head>
 <body class="font-body text-wood antialiased min-h-screen">
-    <!-- Header Banner -->
-    <header class="header-banner text-parchment">
-        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+    <!-- Navigation -->
+    <nav class="bg-parchment/95 backdrop-blur-sm border-b border-parchment-dark/30 shadow-sm">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <a href="{{ route('home') }}" class="flex items-center gap-3">
-                <img src="{{ asset('images/logo.svg') }}" alt="Feastbook" class="h-12 w-12">
-                <span class="font-medieval text-2xl font-bold text-gold">Feastbook</span>
+                <img src="{{ asset('images/image.png') }}" alt="Feastbook" class="h-12 w-12">
+                <span class="font-medieval text-2xl font-bold text-burgundy">Feastbook</span>
             </a>
             <div class="flex items-center gap-6">
-                <a href="{{ route('home') }}" class="font-medieval hover:text-gold transition-colors">Recipes</a>
+                <a href="{{ route('home') }}" class="font-medieval text-wood hover:text-burgundy transition-colors">Recipes</a>
                 @auth
-                    <a href="{{ route('admin.dashboard') }}" class="font-medieval hover:text-gold transition-colors">Admin</a>
+                    <a href="{{ route('admin.dashboard') }}" class="font-medieval text-wood hover:text-burgundy transition-colors">Admin</a>
                 @else
-                    <a href="{{ route('login') }}" class="font-medieval hover:text-gold transition-colors">Login</a>
+                    <a href="{{ route('login') }}" class="font-medieval text-wood hover:text-burgundy transition-colors">Login</a>
                 @endauth
             </div>
-        </nav>
-        
-        <div class="container mx-auto px-4 py-16 text-center">
-            <h1 class="font-medieval text-5xl md:text-6xl font-bold text-gold mb-4">@yield('header-title', 'Feastbook')</h1>
-            <p class="font-body text-xl text-parchment-dark italic">@yield('header-subtitle', 'A Collection of Medieval Feasts & Recipes')</p>
         </div>
-    </header>
+    </nav>
+
+    <!-- Header Banner -->
+    <header class="header-banner h-80 md:h-96"></header>
 
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-12">
