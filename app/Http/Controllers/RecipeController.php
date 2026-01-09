@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Recipe;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class RecipeController extends Controller
@@ -21,6 +22,15 @@ class RecipeController extends Controller
         $recipe->load(['category', 'ingredients']);
 
         return view('recipes.show', compact('recipe'));
+    }
+
+    public function markAsMade(Recipe $recipe): RedirectResponse
+    {
+        $recipe->update(['last_made' => now()]);
+
+        return redirect()
+            ->route('recipes.show', $recipe)
+            ->with('success', 'Recipe marked as made today!');
     }
 }
 

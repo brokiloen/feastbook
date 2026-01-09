@@ -23,20 +23,36 @@
         @endif
 
         <div class="p-8">
-            <!-- Category Badge -->
-            <div class="flex items-center justify-between mb-6">
-                <span class="bg-burgundy text-parchment text-sm font-medieval px-4 py-2 rounded-full">
-                    {{ $recipe->category->name }}
-                </span>
-                @if($recipe->last_made)
-                    <div class="flex items-center gap-2 text-wood/60">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        <span>Last made: {{ $recipe->last_made->format('F d, Y') }}</span>
-                    </div>
-                @endif
+            <!-- Category Badge & Actions -->
+            <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+                <div class="flex items-center gap-4 flex-wrap">
+                    <span class="bg-burgundy text-parchment text-sm font-medieval px-4 py-2 rounded-full">
+                        {{ $recipe->category->name }}
+                    </span>
+                    @if($recipe->last_made)
+                        <div class="flex items-center gap-2 text-wood/60">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>Last made: {{ $recipe->last_made->format('F d, Y') }}</span>
+                        </div>
+                    @endif
+                </div>
+                
+                <a href="{{ route('recipes.make', $recipe) }}" 
+                   class="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-wood font-medieval px-5 py-2 rounded-full shadow-md hover:shadow-lg transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                    Make Today
+                </a>
             </div>
+            
+            @if(session('success'))
+                <div class="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg">
+                    {{ session('success') }}
+                </div>
+            @endif
 
             <!-- Description -->
             @if($recipe->description)

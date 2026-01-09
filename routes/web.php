@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [RecipeController::class, 'index'])->name('home');
 Route::get('/recipes/{recipe}', [RecipeController::class, 'show'])->name('recipes.show');
 
+// Authenticated recipe actions
+Route::middleware('auth')->group(function () {
+    Route::get('/recipes/{recipe}/make', [RecipeController::class, 'markAsMade'])->name('recipes.make');
+});
+
 // Admin routes
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
