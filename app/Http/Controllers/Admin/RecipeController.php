@@ -50,10 +50,17 @@ class RecipeController extends Controller
             $validated['photo'] = $request->file('photo')->store('recipes', 'public');
         }
 
+        // Sanitize instructions HTML - allow tags from Quill editor
+        $instructions = $validated['instructions'] ?? null;
+        if ($instructions) {
+            $allowedTags = '<p><br><strong><em><b><i><u><s><ul><ol><li><a><h1><h2><h3><h4><h5><h6><blockquote><img><span>';
+            $instructions = strip_tags($instructions, $allowedTags);
+        }
+
         $recipe = Recipe::create([
             'name' => $validated['name'],
             'description' => $validated['description'] ?? null,
-            'instructions' => $validated['instructions'] ?? null,
+            'instructions' => $instructions,
             'category_id' => $validated['category_id'],
             'last_made' => $validated['last_made'] ?? null,
             'photo' => $validated['photo'] ?? null,
@@ -126,10 +133,17 @@ class RecipeController extends Controller
 
         unset($validated['remove_photo']);
 
+        // Sanitize instructions HTML - allow tags from Quill editor
+        $instructions = $validated['instructions'] ?? null;
+        if ($instructions) {
+            $allowedTags = '<p><br><strong><em><b><i><u><s><ul><ol><li><a><h1><h2><h3><h4><h5><h6><blockquote><img><span>';
+            $instructions = strip_tags($instructions, $allowedTags);
+        }
+
         $recipe->update([
             'name' => $validated['name'],
             'description' => $validated['description'] ?? null,
-            'instructions' => $validated['instructions'] ?? null,
+            'instructions' => $instructions,
             'category_id' => $validated['category_id'],
             'last_made' => $validated['last_made'] ?? null,
             'photo' => $validated['photo'] ?? $recipe->photo,

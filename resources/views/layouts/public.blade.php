@@ -53,6 +53,71 @@
             transform: translateY(-5px);
             box-shadow: 0 15px 30px rgba(61, 35, 20, 0.3);
         }
+        /* Quill editor content styles */
+        .recipe-instructions {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+            color: rgba(61, 35, 20, 0.8);
+        }
+        .recipe-instructions p {
+            margin-bottom: 1rem;
+        }
+        .recipe-instructions h1, .recipe-instructions h2, .recipe-instructions h3 {
+            font-family: 'Cinzel', serif;
+            color: #3d2314;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        .recipe-instructions h1 { font-size: 2rem; }
+        .recipe-instructions h2 { font-size: 1.5rem; }
+        .recipe-instructions h3 { font-size: 1.25rem; }
+        .recipe-instructions ul, .recipe-instructions ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+            list-style-position: outside;
+        }
+        .recipe-instructions ul {
+            list-style-type: disc;
+        }
+        .recipe-instructions ol {
+            list-style-type: decimal;
+        }
+        .recipe-instructions li {
+            margin-bottom: 0.5rem;
+            color: rgba(61, 35, 20, 0.8);
+        }
+        .recipe-instructions ol li::marker,
+        .recipe-instructions ul li::marker {
+            color: #3d2314;
+            font-weight: 600;
+        }
+        .recipe-instructions a {
+            color: #722f37;
+            text-decoration: underline;
+        }
+        .recipe-instructions a:hover {
+            color: #5a252c;
+        }
+        .recipe-instructions blockquote {
+            border-left: 4px solid #c9a227;
+            padding-left: 1rem;
+            margin-left: 0;
+            margin-bottom: 1rem;
+            font-style: italic;
+            color: rgba(61, 35, 20, 0.7);
+        }
+        .recipe-instructions strong {
+            font-weight: 600;
+            color: #3d2314;
+        }
+        .recipe-instructions img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
     </style>
 </head>
 <body class="font-body text-wood antialiased min-h-screen">

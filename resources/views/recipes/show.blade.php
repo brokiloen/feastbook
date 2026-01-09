@@ -86,8 +86,8 @@
                 <div class="mb-8">
                     <h2 class="font-medieval text-2xl text-wood mb-4">Instructions</h2>
                     <div class="w-16 h-1 bg-gold mb-4"></div>
-                    <div class="text-wood/80 leading-relaxed text-lg prose prose-lg max-w-none">
-                        {!! nl2br(e($recipe->instructions)) !!}
+                    <div class="recipe-instructions">
+                        {!! $recipe->instructions !!}
                     </div>
                 </div>
             @endif

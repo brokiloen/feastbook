@@ -150,12 +150,9 @@
 
             <!-- Instructions Section -->
             <div class="mb-6">
-                <label for="instructions" class="block text-sm font-medium text-gray-700 mb-2">Instructions</label>
-                <textarea name="instructions" 
-                          id="instructions" 
-                          rows="8"
-                          placeholder="Step-by-step cooking instructions..."
-                          class="w-full border-gray-300 rounded-md shadow-sm focus:ring-burgundy focus:border-burgundy @error('instructions') border-red-500 @enderror">{{ old('instructions', $recipe->instructions) }}</textarea>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Instructions</label>
+                <div id="instructions-editor" class="bg-white border border-gray-300 rounded-md" style="height: 300px;">{!! old('instructions', $recipe->instructions) !!}</div>
+                <input type="hidden" name="instructions" id="instructions-input">
                 @error('instructions')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
@@ -174,7 +171,44 @@
 </div>
 
 @push('scripts')
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 <script>
+    // Initialize Quill
+    const quill = new Quill('#instructions-editor', {
+        theme: 'snow',
+        placeholder: 'Step-by-step cooking instructions...',
+        modules: {
+            toolbar: [
+                [{ 'header': [1, 2, 3, false] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'color': [] }, { 'background': [] }],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'indent': '-1'}, { 'indent': '+1' }],
+                [{ 'align': [] }],
+                ['blockquote'],
+                ['link', 'image'],
+                ['clean']
+            ]
+        }
+    });
+
+    // Sync Quill content to hidden input
+    const instructionsInput = document.getElementById('instructions-input');
+    
+    // Initialize hidden input with current content
+    instructionsInput.value = quill.root.innerHTML;
+    
+    // Sync on every change
+    quill.on('text-change', function() {
+        instructionsInput.value = quill.root.innerHTML;
+    });
+    
+    // Also sync on form submit (backup)
+    document.querySelector('form').addEventListener('submit', function() {
+        instructionsInput.value = quill.root.innerHTML;
+    });
+
     let ingredientIndex = {{ $recipe->ingredients->count() > 0 ? $recipe->ingredients->count() : 1 }};
     const units = @json($units);
 
