@@ -50,7 +50,29 @@
             <!-- Ingredients -->
             @if($recipe->ingredients->isNotEmpty())
                 <div class="bg-parchment-dark/30 rounded-lg p-6 mb-8">
-                    <h2 class="font-medieval text-2xl text-wood mb-4">Ingredients</h2>
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="font-medieval text-2xl text-wood">Ingredients</h2>
+                        
+                        <!-- Servings Adjuster -->
+                        <div class="flex items-center gap-3">
+                            <span class="text-wood/70 text-sm font-medieval">Servings:</span>
+                            <div class="flex items-center bg-white rounded-lg shadow-sm border border-wood/20">
+                                <button type="button" 
+                                        onclick="adjustServings(-1)" 
+                                        class="px-3 py-2 text-burgundy hover:bg-parchment-dark/50 rounded-l-lg transition-colors font-bold text-lg">
+                                    −
+                                </button>
+                                <span id="current-servings" class="px-4 py-2 font-medieval text-lg text-wood min-w-[3rem] text-center">
+                                    {{ $recipe->servings }}
+                                </span>
+                                <button type="button" 
+                                        onclick="adjustServings(1)" 
+                                        class="px-3 py-2 text-burgundy hover:bg-parchment-dark/50 rounded-r-lg transition-colors font-bold text-lg">
+                                    +
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                     <div class="w-16 h-1 bg-gold mb-6"></div>
                     
                     <ul class="space-y-3" id="ingredients-list">
@@ -63,8 +85,10 @@
                                     <span class="flex-1 text-lg group-hover:text-burgundy transition-colors">
                                         <span class="ingredient-name">{{ $ingredient->name }}</span>
                                         @if($ingredient->quantity || $ingredient->unit)
-                                            <span class="text-wood/60 ml-2">
-                                                ({{ $ingredient->formatted_quantity }})
+                                            <span class="ingredient-quantity text-wood/60 ml-2"
+                                                  data-base-quantity="{{ $ingredient->quantity }}"
+                                                  data-unit="{{ $ingredient->unit }}">
+                                                (<span class="quantity-value">{{ $ingredient->quantity ? rtrim(rtrim(number_format($ingredient->quantity, 2), '0'), '.') : '' }}</span>{{ $ingredient->unit ? ' ' . $ingredient->unit : '' }})
                                             </span>
                                         @endif
                                     </span>
@@ -73,9 +97,12 @@
                         @endforeach
                     </ul>
 
-                    <div class="mt-6 pt-4 border-t border-wood/20">
+                    <div class="mt-6 pt-4 border-t border-wood/20 flex items-center justify-between">
                         <button type="button" onclick="clearAllCheckboxes()" class="text-burgundy hover:text-burgundy-dark font-medieval text-sm transition-colors">
                             Clear all
+                        </button>
+                        <button type="button" onclick="resetServings()" class="text-burgundy hover:text-burgundy-dark font-medieval text-sm transition-colors">
+                            Reset servings
                         </button>
                     </div>
                 </div>
@@ -97,12 +124,80 @@
 
 @push('scripts')
 <script>
-    // Save checkbox state to localStorage
+    // Recipe and servings data
     const recipeId = {{ $recipe->id }};
-    const storageKey = `feastbook_recipe_${recipeId}_checked`;
+    const baseServings = {{ $recipe->servings }};
+    let currentServings = baseServings;
+    
+    // Storage keys
+    const checkboxStorageKey = `feastbook_recipe_${recipeId}_checked`;
+    const servingsStorageKey = `feastbook_recipe_${recipeId}_servings`;
 
+    // Servings adjustment
+    function adjustServings(delta) {
+        const newServings = currentServings + delta;
+        if (newServings >= 1 && newServings <= 100) {
+            currentServings = newServings;
+            updateServingsDisplay();
+            recalculateQuantities();
+            saveServingsState();
+        }
+    }
+
+    function resetServings() {
+        currentServings = baseServings;
+        updateServingsDisplay();
+        recalculateQuantities();
+        saveServingsState();
+    }
+
+    function updateServingsDisplay() {
+        document.getElementById('current-servings').textContent = currentServings;
+    }
+
+    function recalculateQuantities() {
+        const ratio = currentServings / baseServings;
+        
+        document.querySelectorAll('.ingredient-quantity').forEach(el => {
+            const baseQuantity = parseFloat(el.dataset.baseQuantity);
+            if (!isNaN(baseQuantity) && baseQuantity > 0) {
+                const newQuantity = baseQuantity * ratio;
+                const quantityEl = el.querySelector('.quantity-value');
+                if (quantityEl) {
+                    // Format nicely: remove trailing zeros
+                    let formatted;
+                    if (newQuantity % 1 === 0) {
+                        formatted = newQuantity.toString();
+                    } else if (newQuantity < 0.1) {
+                        formatted = newQuantity.toFixed(3).replace(/\.?0+$/, '');
+                    } else {
+                        formatted = newQuantity.toFixed(2).replace(/\.?0+$/, '');
+                    }
+                    quantityEl.textContent = formatted;
+                }
+            }
+        });
+    }
+
+    function saveServingsState() {
+        localStorage.setItem(servingsStorageKey, currentServings.toString());
+    }
+
+    function loadServingsState() {
+        const saved = localStorage.getItem(servingsStorageKey);
+        if (saved) {
+            const savedServings = parseInt(saved);
+            if (!isNaN(savedServings) && savedServings >= 1 && savedServings <= 100) {
+                currentServings = savedServings;
+                updateServingsDisplay();
+                recalculateQuantities();
+            }
+        }
+    }
+
+    // Checkbox state management
     function loadCheckboxState() {
-        const saved = localStorage.getItem(storageKey);
+        const saved = localStorage.getItem(checkboxStorageKey);
         if (saved) {
             const checkedIds = JSON.parse(saved);
             document.querySelectorAll('.ingredient-checkbox').forEach(checkbox => {
@@ -118,7 +213,7 @@
         document.querySelectorAll('.ingredient-checkbox:checked').forEach(checkbox => {
             checkedIds.push(checkbox.dataset.ingredientId);
         });
-        localStorage.setItem(storageKey, JSON.stringify(checkedIds));
+        localStorage.setItem(checkboxStorageKey, JSON.stringify(checkedIds));
     }
 
     function updateIngredientStyle(checkbox) {
@@ -141,6 +236,7 @@
 
     // Initialize
     document.addEventListener('DOMContentLoaded', function() {
+        loadServingsState();
         loadCheckboxState();
 
         document.querySelectorAll('.ingredient-checkbox').forEach(checkbox => {

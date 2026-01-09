@@ -54,7 +54,21 @@
                 @enderror
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div>
+                    <label for="servings" class="block text-sm font-medium text-gray-700 mb-2">Servings *</label>
+                    <input type="number" 
+                           name="servings" 
+                           id="servings" 
+                           value="{{ old('servings', 4) }}"
+                           min="1"
+                           class="w-full border-gray-300 rounded-md shadow-sm focus:ring-burgundy focus:border-burgundy @error('servings') border-red-500 @enderror"
+                           required>
+                    @error('servings')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <div>
                     <label for="last_made" class="block text-sm font-medium text-gray-700 mb-2">Last Made</label>
                     <input type="date" 

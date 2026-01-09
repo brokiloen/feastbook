@@ -19,6 +19,7 @@ class Recipe extends Model
         'instructions',
         'photo',
         'last_made',
+        'servings',
         'category_id',
     ];
 
