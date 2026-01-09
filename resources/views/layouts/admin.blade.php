@@ -40,7 +40,7 @@
         <aside class="w-64 bg-wood text-parchment flex-shrink-0">
             <div class="p-6">
                 <a href="{{ route('home') }}" class="flex items-center gap-3">
-                    <img src="{{ asset('images/logo.svg') }}" alt="Feastbook" class="h-10 w-10">
+                    <img src="{{ asset('images/image.png') }}" alt="Feastbook" class="h-10 w-10">
                     <span class="font-medieval text-xl font-bold text-gold">Feastbook</span>
                 </a>
             </div>
