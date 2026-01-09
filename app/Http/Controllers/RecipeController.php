@@ -30,7 +30,7 @@ class RecipeController extends Controller
 
         return redirect()
             ->route('recipes.show', $recipe)
-            ->with('success', 'Recipe marked as made today!');
+            ->with('success', 'Рецептата е отбелязана като приготвена днес!');
     }
 }
 

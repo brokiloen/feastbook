@@ -11,7 +11,7 @@
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
-        Back to Recipes
+        Обратно към рецептите
     </a>
 
     <div class="bg-white rounded-lg shadow-xl overflow-hidden border border-wood/10">
@@ -34,7 +34,7 @@
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
-                            <span>Last made: {{ $recipe->last_made->format('F d, Y') }}</span>
+                            <span>Последно: {{ $recipe->last_made->format('d.m.Y') }}</span>
                         </div>
                     @endif
                 </div>
@@ -44,7 +44,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </svg>
-                    Make Today
+                    Приготви днес
                 </a>
             </div>
             
@@ -57,7 +57,7 @@
             <!-- Description -->
             @if($recipe->description)
                 <div class="mb-8">
-                    <h2 class="font-medieval text-2xl text-wood mb-4">About this Recipe</h2>
+                    <h2 class="font-medieval text-2xl text-wood mb-4">За тази рецепта</h2>
                     <div class="w-16 h-1 bg-gold mb-4"></div>
                     <p class="text-wood/80 leading-relaxed text-lg">{{ $recipe->description }}</p>
                 </div>
@@ -67,11 +67,11 @@
             @if($recipe->ingredients->isNotEmpty())
                 <div class="bg-parchment-dark/30 rounded-lg p-6 mb-8">
                     <div class="flex items-center justify-between mb-4">
-                        <h2 class="font-medieval text-2xl text-wood">Ingredients</h2>
+                        <h2 class="font-medieval text-2xl text-wood">Съставки</h2>
                         
                         <!-- Servings Adjuster -->
                         <div class="flex items-center gap-3">
-                            <span class="text-wood/70 text-sm font-medieval">Servings:</span>
+                            <span class="text-wood/70 text-sm font-medieval">Порции:</span>
                             <div class="flex items-center bg-white rounded-lg shadow-sm border border-wood/20">
                                 <button type="button" 
                                         onclick="adjustServings(-1)" 
@@ -115,10 +115,10 @@
 
                     <div class="mt-6 pt-4 border-t border-wood/20 flex items-center justify-between">
                         <button type="button" onclick="clearAllCheckboxes()" class="text-burgundy hover:text-burgundy-dark font-medieval text-sm transition-colors">
-                            Clear all
+                            Изчисти всички
                         </button>
                         <button type="button" onclick="resetServings()" class="text-burgundy hover:text-burgundy-dark font-medieval text-sm transition-colors">
-                            Reset servings
+                            Нулирай порциите
                         </button>
                     </div>
                 </div>
@@ -127,7 +127,7 @@
             <!-- Instructions -->
             @if($recipe->instructions)
                 <div class="mb-8">
-                    <h2 class="font-medieval text-2xl text-wood mb-4">Instructions</h2>
+                    <h2 class="font-medieval text-2xl text-wood mb-4">Начин на приготвяне</h2>
                     <div class="w-16 h-1 bg-gold mb-4"></div>
                     <div class="recipe-instructions">
                         {!! $recipe->instructions !!}

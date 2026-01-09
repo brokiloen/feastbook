@@ -1,12 +1,12 @@
 @extends('layouts.public')
 
-@section('title', 'All Recipes')
+@section('title', 'Всички рецепти')
 @section('header-title', 'Feastbook')
-@section('header-subtitle', 'A Collection of Medieval Feasts & Recipes')
+@section('header-subtitle', 'Колекция от средновековни пиршества и рецепти')
 
 @section('content')
 <div class="mb-8">
-    <h2 class="font-medieval text-3xl text-wood mb-2">Our Recipes</h2>
+    <h2 class="font-medieval text-3xl text-wood mb-2">Нашите рецепти</h2>
     <div class="w-24 h-1 bg-gold"></div>
 </div>
 
@@ -15,8 +15,8 @@
         <svg class="w-16 h-16 mx-auto text-wood/40 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
         </svg>
-        <h3 class="font-medieval text-xl text-wood mb-2">No Recipes Yet</h3>
-        <p class="text-wood/70">The kitchen awaits its first recipe. Check back soon!</p>
+        <h3 class="font-medieval text-xl text-wood mb-2">Все още няма рецепти</h3>
+        <p class="text-wood/70">Кухнята чака първата си рецепта. Проверете отново скоро!</p>
     </div>
 @else
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -48,7 +48,7 @@
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
-                            <span>Last made: {{ $recipe->last_made->format('M d, Y') }}</span>
+                            <span>Последно: {{ $recipe->last_made->format('d.m.Y') }}</span>
                         </div>
                     @endif
                 </div>

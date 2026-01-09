@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Feastbook') }} - @yield('title', 'Medieval Recipes')</title>
+    <title>{{ config('app.name', 'Feastbook') }} - @yield('title', 'Средновековни рецепти')</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -129,11 +129,11 @@
                 <span class="font-medieval text-2xl font-bold text-burgundy">Feastbook</span>
             </a>
             <div class="flex items-center gap-6">
-                <a href="{{ route('home') }}" class="font-medieval text-wood hover:text-burgundy transition-colors">Recipes</a>
+                <a href="{{ route('home') }}" class="font-medieval text-wood hover:text-burgundy transition-colors">Рецепти</a>
                 @auth
-                    <a href="{{ route('admin.dashboard') }}" class="font-medieval text-wood hover:text-burgundy transition-colors">Admin</a>
+                    <a href="{{ route('admin.dashboard') }}" class="font-medieval text-wood hover:text-burgundy transition-colors">Админ</a>
                 @else
-                    <a href="{{ route('login') }}" class="font-medieval text-wood hover:text-burgundy transition-colors">Login</a>
+                    <a href="{{ route('login') }}" class="font-medieval text-wood hover:text-burgundy transition-colors">Вход</a>
                 @endauth
             </div>
         </div>
@@ -151,7 +151,7 @@
     <footer class="bg-wood text-parchment py-8 mt-12">
         <div class="container mx-auto px-4 text-center">
             <div class="font-medieval text-gold text-xl mb-2">Feastbook</div>
-            <p class="text-parchment-dark text-sm">&copy; {{ date('Y') }} Feastbook. All recipes gathered from across the realm.</p>
+            <p class="text-parchment-dark text-sm">&copy; {{ date('Y') }} Feastbook. Всички рецепти, събрани от цялото царство.</p>
         </div>
     </footer>
 
