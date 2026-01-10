@@ -7,7 +7,7 @@
 @section('content')
 <div class="max-w-4xl mx-auto">
     <!-- Back Link -->
-    <a href="{{ route('home') }}" class="inline-flex items-center gap-2 text-burgundy hover:text-burgundy-dark mb-8 font-medieval transition-colors">
+    <a href="{{ route('home') }}" class="inline-flex items-center gap-2 text-burgundy hover:text-burgundy-dark mb-8 font-medieval-bg text-lg transition-colors">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
@@ -44,7 +44,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </svg>
-                    Приготви днес
+                    <span class="font-medieval-bg text-lg">Приготви днес</span>
                 </a>
             </div>
             
@@ -57,7 +57,7 @@
             <!-- Description -->
             @if($recipe->description)
                 <div class="mb-8">
-                    <h2 class="font-medieval text-2xl text-wood mb-4">За тази рецепта</h2>
+                    <h2 class="font-medieval-bg text-3xl text-wood mb-4">За тази рецепта</h2>
                     <div class="w-16 h-1 bg-gold mb-4"></div>
                     <p class="text-wood/80 leading-relaxed text-lg">{{ $recipe->description }}</p>
                 </div>
@@ -67,11 +67,11 @@
             @if($recipe->ingredients->isNotEmpty())
                 <div class="bg-parchment-dark/30 rounded-lg p-6 mb-8">
                     <div class="flex items-center justify-between mb-4">
-                        <h2 class="font-medieval text-2xl text-wood">Съставки</h2>
+                        <h2 class="font-medieval-bg text-3xl text-wood">Съставки</h2>
                         
                         <!-- Servings Adjuster -->
                         <div class="flex items-center gap-3">
-                            <span class="text-wood/70 text-sm font-medieval">Порции:</span>
+                            <span class="text-wood/70 text-base font-medieval-bg">Порции:</span>
                             <div class="flex items-center bg-white rounded-lg shadow-sm border border-wood/20">
                                 <button type="button" 
                                         onclick="adjustServings(-1)" 
@@ -114,10 +114,10 @@
                     </ul>
 
                     <div class="mt-6 pt-4 border-t border-wood/20 flex items-center justify-between">
-                        <button type="button" onclick="clearAllCheckboxes()" class="text-burgundy hover:text-burgundy-dark font-medieval text-sm transition-colors">
+                        <button type="button" onclick="clearAllCheckboxes()" class="text-burgundy hover:text-burgundy-dark font-medieval-bg text-base transition-colors">
                             Изчисти всички
                         </button>
-                        <button type="button" onclick="resetServings()" class="text-burgundy hover:text-burgundy-dark font-medieval text-sm transition-colors">
+                        <button type="button" onclick="resetServings()" class="text-burgundy hover:text-burgundy-dark font-medieval-bg text-base transition-colors">
                             Нулирай порциите
                         </button>
                     </div>
@@ -127,7 +127,7 @@
             <!-- Instructions -->
             @if($recipe->instructions)
                 <div class="mb-8">
-                    <h2 class="font-medieval text-2xl text-wood mb-4">Начин на приготвяне</h2>
+                    <h2 class="font-medieval-bg text-3xl text-wood mb-4">Начин на приготвяне</h2>
                     <div class="w-16 h-1 bg-gold mb-4"></div>
                     <div class="recipe-instructions">
                         {!! $recipe->instructions !!}

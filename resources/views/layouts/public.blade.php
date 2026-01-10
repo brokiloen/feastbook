@@ -30,6 +30,7 @@
                     },
                     fontFamily: {
                         'medieval': ['Cinzel', 'serif'],
+                        'medieval-bg': ['Akathistos', 'Cinzel', 'serif'],
                         'body': ['Crimson Text', 'serif'],
                     },
                 }
@@ -37,6 +38,13 @@
         }
     </script>
     <style>
+        @font-face {
+            font-family: 'Akathistos';
+            src: url('{{ asset("fonts/AkathUcs8.ttf") }}') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
         body {
             background-color: #f4e4bc;
             background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4c4a0' fill-opacity='0.3'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
@@ -129,11 +137,11 @@
                 <span class="font-medieval text-2xl font-bold text-burgundy">Feastbook</span>
             </a>
             <div class="flex items-center gap-6">
-                <a href="{{ route('home') }}" class="font-medieval text-wood hover:text-burgundy transition-colors">Рецепти</a>
+                <a href="{{ route('home') }}" class="font-medieval-bg text-lg text-wood hover:text-burgundy transition-colors">Рецепти</a>
                 @auth
-                    <a href="{{ route('admin.dashboard') }}" class="font-medieval text-wood hover:text-burgundy transition-colors">Админ</a>
+                    <a href="{{ route('admin.dashboard') }}" class="font-medieval-bg text-lg text-wood hover:text-burgundy transition-colors">Админ</a>
                 @else
-                    <a href="{{ route('login') }}" class="font-medieval text-wood hover:text-burgundy transition-colors">Вход</a>
+                    <a href="{{ route('login') }}" class="font-medieval-bg text-lg text-wood hover:text-burgundy transition-colors">Вход</a>
                 @endauth
             </div>
         </div>
@@ -151,7 +159,7 @@
     <footer class="bg-wood text-parchment py-8 mt-12">
         <div class="container mx-auto px-4 text-center">
             <div class="font-medieval text-gold text-xl mb-2">Feastbook</div>
-            <p class="text-parchment-dark text-sm">&copy; {{ date('Y') }} Feastbook. Всички рецепти, събрани от цялото царство.</p>
+            <p class="text-parchment-dark text-base font-medieval-bg">&copy; {{ date('Y') }} Feastbook. Всички рецепти, събрани от цялото царство.</p>
         </div>
     </footer>
 
