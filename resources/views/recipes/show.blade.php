@@ -91,27 +91,38 @@
                     </div>
                     <div class="w-16 h-1 bg-gold mb-6"></div>
                     
-                    <ul class="space-y-3" id="ingredients-list">
-                        @foreach($recipe->ingredients as $ingredient)
-                            <li class="flex items-center gap-4 ingredient-item">
-                                <label class="flex items-center gap-4 cursor-pointer group flex-1">
-                                    <input type="checkbox" 
-                                           class="ingredient-checkbox w-5 h-5 rounded border-2 border-burgundy text-burgundy focus:ring-burgundy focus:ring-offset-0 cursor-pointer"
-                                           data-ingredient-id="{{ $ingredient->id }}">
-                                    <span class="flex-1 text-lg group-hover:text-burgundy transition-colors">
-                                        <span class="ingredient-name">{{ $ingredient->name }}</span>
-                                        @if($ingredient->quantity || $ingredient->unit)
-                                            <span class="ingredient-quantity text-wood/60 ml-2"
-                                                  data-base-quantity="{{ $ingredient->quantity }}"
-                                                  data-unit="{{ $ingredient->unit }}">
-                                                (<span class="quantity-value">{{ $ingredient->quantity ? rtrim(rtrim(number_format($ingredient->quantity, 2), '0'), '.') : '' }}</span>{{ $ingredient->unit ? ' ' . $ingredient->unit : '' }})
+                    <div id="ingredients-list">
+                        @php
+                            $groupedIngredients = $recipe->ingredients->groupBy(fn($i) => $i->section ?? '');
+                        @endphp
+                        
+                        @foreach($groupedIngredients as $section => $ingredients)
+                            @if($section !== '')
+                                <h3 class="font-medieval-bg text-2xl text-burgundy mt-6 mb-3 first:mt-0">{{ $section }}</h3>
+                            @endif
+                            <ul class="space-y-3 {{ $section !== '' ? 'mb-4' : '' }}">
+                                @foreach($ingredients as $ingredient)
+                                    <li class="flex items-center gap-4 ingredient-item">
+                                        <label class="flex items-center gap-4 cursor-pointer group flex-1">
+                                            <input type="checkbox" 
+                                                   class="ingredient-checkbox w-5 h-5 rounded border-2 border-burgundy text-burgundy focus:ring-burgundy focus:ring-offset-0 cursor-pointer"
+                                                   data-ingredient-id="{{ $ingredient->id }}">
+                                            <span class="flex-1 text-lg group-hover:text-burgundy transition-colors">
+                                                <span class="ingredient-name">{{ $ingredient->name }}</span>
+                                                @if($ingredient->quantity || $ingredient->unit)
+                                                    <span class="ingredient-quantity text-wood/60 ml-2"
+                                                          data-base-quantity="{{ $ingredient->quantity }}"
+                                                          data-unit="{{ $ingredient->unit }}">
+                                                        (<span class="quantity-value">{{ $ingredient->quantity ? rtrim(rtrim(number_format($ingredient->quantity, 2), '0'), '.') : '' }}</span>{{ $ingredient->unit ? ' ' . $ingredient->unit : '' }})
+                                                    </span>
+                                                @endif
                                             </span>
-                                        @endif
-                                    </span>
-                                </label>
-                            </li>
+                                        </label>
+                                    </li>
+                                @endforeach
+                            </ul>
                         @endforeach
-                    </ul>
+                    </div>
 
                     <div class="mt-6 pt-4 border-t border-wood/20 flex items-center justify-between">
                         <button type="button" onclick="clearAllCheckboxes()" class="text-burgundy hover:text-burgundy-dark font-medieval-bg text-lg transition-colors">

@@ -93,9 +93,14 @@
 
             <!-- Ingredients Section -->
             <div class="mb-6">
-                <label class="block text-sm font-medium text-gray-700 mb-4">Ingredients</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Ingredients</label>
+                <p class="text-sm text-gray-500 mb-4">Use sections to group ingredients (e.g., "For the sauce", "For the main dish"). Leave empty for ungrouped ingredients.</p>
                 <div id="ingredients-container" class="space-y-3">
                     <div class="ingredient-row flex gap-3 items-start">
+                        <input type="text" 
+                               name="ingredients[0][section]" 
+                               placeholder="Section (optional)"
+                               class="w-40 border-gray-300 rounded-md shadow-sm focus:ring-burgundy focus:border-burgundy text-sm">
                         <input type="text" 
                                name="ingredients[0][name]" 
                                placeholder="Ingredient name"
@@ -196,6 +201,10 @@
         }
 
         row.innerHTML = `
+            <input type="text" 
+                   name="ingredients[${ingredientIndex}][section]" 
+                   placeholder="Section (optional)"
+                   class="w-40 border-gray-300 rounded-md shadow-sm focus:ring-burgundy focus:border-burgundy text-sm">
             <input type="text" 
                    name="ingredients[${ingredientIndex}][name]" 
                    placeholder="Ingredient name"

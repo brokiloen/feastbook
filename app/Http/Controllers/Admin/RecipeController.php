@@ -41,6 +41,7 @@ class RecipeController extends Controller
             'last_made' => 'nullable|date',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'ingredients' => 'nullable|array',
+            'ingredients.*.section' => 'nullable|string|max:100',
             'ingredients.*.name' => 'required_with:ingredients|string|max:255',
             'ingredients.*.quantity' => 'nullable|numeric|min:0',
             'ingredients.*.unit' => 'nullable|string|max:20',
@@ -73,6 +74,7 @@ class RecipeController extends Controller
             foreach ($validated['ingredients'] as $ingredientData) {
                 if (!empty($ingredientData['name'])) {
                     $recipe->ingredients()->create([
+                        'section' => $ingredientData['section'] ?? null,
                         'name' => $ingredientData['name'],
                         'quantity' => $ingredientData['quantity'] ?? null,
                         'unit' => $ingredientData['unit'] ?? null,
@@ -113,6 +115,7 @@ class RecipeController extends Controller
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'remove_photo' => 'nullable|boolean',
             'ingredients' => 'nullable|array',
+            'ingredients.*.section' => 'nullable|string|max:100',
             'ingredients.*.name' => 'required_with:ingredients|string|max:255',
             'ingredients.*.quantity' => 'nullable|numeric|min:0',
             'ingredients.*.unit' => 'nullable|string|max:20',
@@ -159,6 +162,7 @@ class RecipeController extends Controller
             foreach ($validated['ingredients'] as $ingredientData) {
                 if (!empty($ingredientData['name'])) {
                     $recipe->ingredients()->create([
+                        'section' => $ingredientData['section'] ?? null,
                         'name' => $ingredientData['name'],
                         'quantity' => $ingredientData['quantity'] ?? null,
                         'unit' => $ingredientData['unit'] ?? null,
