@@ -2,7 +2,7 @@
 
 @section('title', $recipe->name)
 @section('header-title', $recipe->name)
-@section('header-subtitle', $recipe->category->name)
+@section('header-subtitle', $recipe->categories->pluck('name')->join(', '))
 
 @section('content')
 <div class="max-w-4xl mx-auto">
@@ -26,9 +26,11 @@
             <!-- Category Badge & Actions -->
             <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
                 <div class="flex items-center gap-4 flex-wrap">
-                    <span class="bg-burgundy text-parchment text-base font-medieval px-4 py-2 rounded-full">
-                        {{ $recipe->category->name }}
-                    </span>
+                    @foreach($recipe->categories as $category)
+                        <span class="bg-burgundy text-parchment text-base font-medieval px-4 py-2 rounded-full">
+                            {{ $category->name }}
+                        </span>
+                    @endforeach
                     @if($recipe->last_made)
                         <div class="flex items-center gap-2 text-wood/60">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

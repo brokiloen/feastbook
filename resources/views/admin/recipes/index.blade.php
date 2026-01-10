@@ -41,7 +41,9 @@
                         </div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="bg-burgundy/10 text-burgundy text-xs px-2 py-1 rounded">{{ $recipe->category->name }}</span>
+                        @foreach($recipe->categories as $category)
+                            <span class="bg-burgundy/10 text-burgundy text-xs px-2 py-1 rounded">{{ $category->name }}</span>
+                        @endforeach
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-gray-500 text-sm">
                         {{ $recipe->last_made ? $recipe->last_made->format('M d, Y') : '-' }}

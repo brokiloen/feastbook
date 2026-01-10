@@ -35,9 +35,11 @@
                 </div>
                 <div class="p-5">
                     <div class="flex items-center gap-2 mb-3">
-                        <span class="bg-burgundy text-parchment text-sm font-medieval px-3 py-1 rounded-full">
-                            {{ $recipe->category->name }}
-                        </span>
+                        @foreach($recipe->categories as $category)
+                            <span class="bg-burgundy text-parchment text-sm font-medieval px-3 py-1 rounded-full">
+                                {{ $category->name }}
+                            </span>
+                        @endforeach
                     </div>
                     <h3 class="font-medieval text-2xl text-wood font-semibold mb-2">{{ $recipe->name }}</h3>
                     @if($recipe->description)

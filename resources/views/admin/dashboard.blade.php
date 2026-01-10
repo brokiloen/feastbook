@@ -78,7 +78,7 @@
                             </div>
                             <div>
                                 <h3 class="font-semibold text-wood">{{ $recipe->name }}</h3>
-                                <p class="text-sm text-gray-500">{{ $recipe->category->name }} &bull; {{ $recipe->created_at->diffForHumans() }}</p>
+                                <p class="text-sm text-gray-500">{{ $recipe->categories->pluck('name')->join(', ') }} &bull; {{ $recipe->created_at->diffForHumans() }}</p>
                             </div>
                         </div>
                         <a href="{{ route('admin.recipes.edit', $recipe) }}" class="text-burgundy hover:underline text-sm">Edit</a>

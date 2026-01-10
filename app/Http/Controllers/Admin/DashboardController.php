@@ -13,7 +13,7 @@ class DashboardController extends Controller
     {
         $recipeCount = Recipe::count();
         $categoryCount = Category::count();
-        $recentRecipes = Recipe::with('category')
+        $recentRecipes = Recipe::with('categories')
             ->orderBy('created_at', 'desc')
             ->limit(5)
             ->get();

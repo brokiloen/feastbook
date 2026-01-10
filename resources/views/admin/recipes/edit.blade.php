@@ -26,19 +26,23 @@
                 </div>
 
                 <div>
-                    <label for="category_id" class="block text-sm font-medium text-gray-700 mb-2">Category *</label>
-                    <select name="category_id" 
-                            id="category_id"
-                            class="w-full border-gray-300 rounded-md shadow-sm focus:ring-burgundy focus:border-burgundy @error('category_id') border-red-500 @enderror"
-                            required>
-                        <option value="">Select a category</option>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Categories *</label>
+                    <div class="space-y-2 max-h-48 overflow-y-auto border border-gray-300 rounded-md p-3 @error('category_ids') border-red-500 @enderror">
+                        @php
+                            $selectedCategoryIds = old('category_ids', $recipe->categories->pluck('id')->toArray());
+                        @endphp
                         @foreach($categories as $category)
-                            <option value="{{ $category->id }}" {{ old('category_id', $recipe->category_id) == $category->id ? 'selected' : '' }}>
-                                {{ $category->name }}
-                            </option>
+                            <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-1 rounded">
+                                <input type="checkbox" 
+                                       name="category_ids[]" 
+                                       value="{{ $category->id }}"
+                                       {{ in_array($category->id, $selectedCategoryIds) ? 'checked' : '' }}
+                                       class="rounded border-gray-300 text-burgundy focus:ring-burgundy">
+                                <span>{{ $category->name }}</span>
+                            </label>
                         @endforeach
-                    </select>
-                    @error('category_id')
+                    </div>
+                    @error('category_ids')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>

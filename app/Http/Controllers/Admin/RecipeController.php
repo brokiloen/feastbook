@@ -15,7 +15,7 @@ class RecipeController extends Controller
 {
     public function index(): View
     {
-        $recipes = Recipe::with('category')
+        $recipes = Recipe::with('categories')
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -37,7 +37,8 @@ class RecipeController extends Controller
             'description' => 'nullable|string',
             'instructions' => 'nullable|string',
             'servings' => 'required|integer|min:1',
-            'category_id' => 'required|exists:categories,id',
+            'category_ids' => 'required|array|min:1',
+            'category_ids.*' => 'exists:categories,id',
             'last_made' => 'nullable|date',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'ingredients' => 'nullable|array',
@@ -64,10 +65,12 @@ class RecipeController extends Controller
             'description' => $validated['description'] ?? null,
             'instructions' => $instructions,
             'servings' => $validated['servings'],
-            'category_id' => $validated['category_id'],
             'last_made' => $validated['last_made'] ?? null,
             'photo' => $validated['photo'] ?? null,
         ]);
+
+        // Attach categories
+        $recipe->categories()->sync($validated['category_ids']);
 
         // Create ingredients
         if (!empty($validated['ingredients'])) {
@@ -90,13 +93,13 @@ class RecipeController extends Controller
 
     public function show(Recipe $recipe): View
     {
-        $recipe->load(['category', 'ingredients']);
+        $recipe->load(['categories', 'ingredients']);
         return view('admin.recipes.show', compact('recipe'));
     }
 
     public function edit(Recipe $recipe): View
     {
-        $recipe->load('ingredients');
+        $recipe->load(['ingredients', 'categories']);
         $categories = Category::orderBy('name')->get();
         $units = Ingredient::UNITS;
 
@@ -110,7 +113,8 @@ class RecipeController extends Controller
             'description' => 'nullable|string',
             'instructions' => 'nullable|string',
             'servings' => 'required|integer|min:1',
-            'category_id' => 'required|exists:categories,id',
+            'category_ids' => 'required|array|min:1',
+            'category_ids.*' => 'exists:categories,id',
             'last_made' => 'nullable|date',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'remove_photo' => 'nullable|boolean',
@@ -151,10 +155,12 @@ class RecipeController extends Controller
             'description' => $validated['description'] ?? null,
             'instructions' => $instructions,
             'servings' => $validated['servings'],
-            'category_id' => $validated['category_id'],
             'last_made' => $validated['last_made'] ?? null,
             'photo' => $validated['photo'] ?? $recipe->photo,
         ]);
+
+        // Sync categories
+        $recipe->categories()->sync($validated['category_ids']);
 
         // Update ingredients
         $recipe->ingredients()->delete();

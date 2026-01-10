@@ -10,7 +10,7 @@ class RecipeController extends Controller
 {
     public function index(): View
     {
-        $recipes = Recipe::with('category')
+        $recipes = Recipe::with('categories')
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -19,7 +19,7 @@ class RecipeController extends Controller
 
     public function show(Recipe $recipe): View
     {
-        $recipe->load(['category', 'ingredients']);
+        $recipe->load(['categories', 'ingredients']);
 
         return view('recipes.show', compact('recipe'));
     }
