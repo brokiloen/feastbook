@@ -10,7 +10,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -29,8 +29,9 @@
                         'gold-light': '#dbb84d',
                     },
                     fontFamily: {
-                        'medieval': ['Cinzel', 'serif'],
-                        'medieval-bg': ['Akathistos', 'Cinzel', 'serif'],
+                        'logo': ['Cinzel', 'serif'],
+                        'medieval': ['Cormorant Garamond', 'serif'],
+                        'medieval-bg': ['Akathistos', 'Cormorant Garamond', 'serif'],
                         'body': ['Crimson Text', 'serif'],
                     },
                 }
@@ -72,7 +73,7 @@
             margin-bottom: 1rem;
         }
         .recipe-instructions h1, .recipe-instructions h2, .recipe-instructions h3 {
-            font-family: 'Cinzel', serif;
+            font-family: 'Cormorant Garamond', serif;
             color: #3d2314;
             margin-top: 1.5rem;
             margin-bottom: 1rem;
@@ -134,14 +135,14 @@
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <a href="{{ route('home') }}" class="flex items-center gap-3">
                 <img src="{{ asset('images/image.png') }}" alt="Feastbook" class="h-12 w-12">
-                <span class="font-medieval text-2xl font-bold text-burgundy">Feastbook</span>
+                <span class="font-logo text-2xl font-bold text-burgundy">Feastbook</span>
             </a>
             <div class="flex items-center gap-6">
-                <a href="{{ route('home') }}" class="font-medieval-bg text-lg text-wood hover:text-burgundy transition-colors">Рецепти</a>
+                <a href="{{ route('home') }}" class="font-medieval-bg text-xl text-wood hover:text-burgundy transition-colors">Рецепти</a>
                 @auth
-                    <a href="{{ route('admin.dashboard') }}" class="font-medieval-bg text-lg text-wood hover:text-burgundy transition-colors">Админ</a>
+                    <a href="{{ route('admin.dashboard') }}" class="font-medieval-bg text-xl text-wood hover:text-burgundy transition-colors">Админ</a>
                 @else
-                    <a href="{{ route('login') }}" class="font-medieval-bg text-lg text-wood hover:text-burgundy transition-colors">Вход</a>
+                    <a href="{{ route('login') }}" class="font-medieval-bg text-xl text-wood hover:text-burgundy transition-colors">Вход</a>
                 @endauth
             </div>
         </div>
@@ -158,8 +159,8 @@
     <!-- Footer -->
     <footer class="bg-wood text-parchment py-8 mt-12">
         <div class="container mx-auto px-4 text-center">
-            <div class="font-medieval text-gold text-xl mb-2">Feastbook</div>
-            <p class="text-parchment-dark text-base font-medieval-bg">&copy; {{ date('Y') }} Feastbook. Всички рецепти, събрани от цялото царство.</p>
+            <div class="font-logo text-gold text-xl mb-2">Feastbook</div>
+            <p class="text-parchment-dark text-lg font-medieval">&copy; {{ date('Y') }} Feastbook. Всички рецепти, събрани от цялото царство.</p>
         </div>
     </footer>
 

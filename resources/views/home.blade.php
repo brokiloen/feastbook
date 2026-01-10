@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="mb-8">
-    <h2 class="font-medieval-bg text-4xl text-wood mb-2">Нашите рецепти</h2>
+    <h2 class="font-medieval-bg text-5xl text-wood mb-2">Нашите рецепти</h2>
     <div class="w-24 h-1 bg-gold"></div>
 </div>
 
@@ -15,8 +15,8 @@
         <svg class="w-16 h-16 mx-auto text-wood/40 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
         </svg>
-        <h3 class="font-medieval-bg text-2xl text-wood mb-2">Все още няма рецепти</h3>
-        <p class="text-wood/70 font-medieval-bg text-lg">Кухнята чака първата си рецепта. Проверете отново скоро!</p>
+        <h3 class="font-medieval-bg text-3xl text-wood mb-2">Все още няма рецепти</h3>
+        <p class="text-wood/70 font-medieval-bg text-xl">Кухнята чака първата си рецепта. Проверете отново скоро!</p>
     </div>
 @else
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -35,11 +35,11 @@
                 </div>
                 <div class="p-5">
                     <div class="flex items-center gap-2 mb-3">
-                        <span class="bg-burgundy text-parchment text-xs font-medieval px-3 py-1 rounded-full">
+                        <span class="bg-burgundy text-parchment text-sm font-medieval px-3 py-1 rounded-full">
                             {{ $recipe->category->name }}
                         </span>
                     </div>
-                    <h3 class="font-medieval text-xl text-wood font-semibold mb-2">{{ $recipe->name }}</h3>
+                    <h3 class="font-medieval text-2xl text-wood font-semibold mb-2">{{ $recipe->name }}</h3>
                     @if($recipe->description)
                         <p class="text-wood/70 text-sm line-clamp-2 mb-3">{{ Str::limit($recipe->description, 100) }}</p>
                     @endif
