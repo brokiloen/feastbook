@@ -193,6 +193,10 @@
 
     function addIngredient() {
         const container = document.getElementById('ingredients-container');
+        const rows = container.querySelectorAll('.ingredient-row');
+        const lastRow = rows[rows.length - 1];
+        const lastSection = lastRow ? lastRow.querySelector('input[name*="[section]"]').value : '';
+        
         const row = document.createElement('div');
         row.className = 'ingredient-row flex gap-3 items-start';
         
@@ -204,6 +208,7 @@
         row.innerHTML = `
             <input type="text" 
                    name="ingredients[${ingredientIndex}][section]" 
+                   value="${lastSection}"
                    placeholder="Section (optional)"
                    class="w-40 border-gray-300 rounded-md shadow-sm focus:ring-burgundy focus:border-burgundy text-sm">
             <input type="text" 
