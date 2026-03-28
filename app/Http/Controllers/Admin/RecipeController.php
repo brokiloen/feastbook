@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
-use Mews\Purifier\Facades\Purifier;
 
 class RecipeController extends Controller
 {
@@ -55,11 +54,7 @@ class RecipeController extends Controller
             $validated['photo'] = $request->file('photo')->store('recipes', 'public');
         }
 
-        // Sanitize instructions HTML
         $instructions = $validated['instructions'] ?? null;
-        if ($instructions) {
-            $instructions = Purifier::clean($instructions);
-        }
 
         DB::transaction(function () use ($validated, $instructions) {
             $recipe = Recipe::create([
@@ -146,11 +141,7 @@ class RecipeController extends Controller
 
         unset($validated['remove_photo']);
 
-        // Sanitize instructions HTML
         $instructions = $validated['instructions'] ?? null;
-        if ($instructions) {
-            $instructions = Purifier::clean($instructions);
-        }
 
         DB::transaction(function () use ($recipe, $validated, $instructions) {
             $recipe->update([
