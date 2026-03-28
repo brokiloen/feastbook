@@ -24,7 +24,7 @@
             <a href="{{ route('recipes.show', $recipe) }}" class="recipe-card bg-white rounded-lg overflow-hidden shadow-lg border border-wood/10">
                 <div class="aspect-[4/3] overflow-hidden bg-parchment-dark">
                     @if($recipe->photo)
-                        <img src="{{ $recipe->photo_url }}" alt="{{ $recipe->name }}" class="w-full h-full object-cover">
+                        <img src="{{ $recipe->photo_url }}" alt="{{ $recipe->name }}" loading="lazy" class="w-full h-full object-cover">
                     @else
                         <div class="w-full h-full flex items-center justify-center">
                             <svg class="w-20 h-20 text-wood/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
