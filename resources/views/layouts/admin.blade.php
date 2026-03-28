@@ -37,7 +37,7 @@
 <body class="font-sans bg-gray-100 text-gray-900 antialiased min-h-screen">
     <div class="min-h-screen flex">
         <!-- Sidebar -->
-        <aside class="w-64 bg-wood text-parchment flex-shrink-0">
+        <aside class="w-64 bg-wood text-parchment flex-shrink-0 relative">
             <div class="p-6">
                 <a href="{{ route('home') }}" class="flex items-center gap-3">
                     <img src="{{ asset('images/image.png') }}" alt="Feastbook" class="h-10 w-10">
