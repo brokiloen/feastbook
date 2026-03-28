@@ -4,6 +4,7 @@ use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\RecipeController as AdminRecipeController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,15 +14,16 @@ Route::get('/recipes/{recipe}', [RecipeController::class, 'show'])->name('recipe
 
 // Authenticated recipe actions
 Route::middleware('auth')->group(function () {
-    Route::get('/recipes/{recipe}/make', [RecipeController::class, 'markAsMade'])->name('recipes.make');
+    Route::post('/recipes/{recipe}/make', [RecipeController::class, 'markAsMade'])->name('recipes.make');
 });
 
 // Admin routes
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     
     Route::resource('recipes', AdminRecipeController::class);
     Route::resource('categories', AdminCategoryController::class);
+    Route::resource('users', AdminUserController::class)->except(['show']);
 });
 
 Route::middleware('auth')->group(function () {

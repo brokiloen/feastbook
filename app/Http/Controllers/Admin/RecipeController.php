@@ -8,8 +8,10 @@ use App\Models\Ingredient;
 use App\Models\Recipe;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Mews\Purifier\Facades\Purifier;
 
 class RecipeController extends Controller
 {
@@ -53,38 +55,39 @@ class RecipeController extends Controller
             $validated['photo'] = $request->file('photo')->store('recipes', 'public');
         }
 
-        // Sanitize instructions HTML - allow tags from Quill editor
+        // Sanitize instructions HTML
         $instructions = $validated['instructions'] ?? null;
         if ($instructions) {
-            $allowedTags = '<p><br><strong><em><b><i><u><s><ul><ol><li><a><h1><h2><h3><h4><h5><h6><blockquote><img><span>';
-            $instructions = strip_tags($instructions, $allowedTags);
+            $instructions = Purifier::clean($instructions);
         }
 
-        $recipe = Recipe::create([
-            'name' => $validated['name'],
-            'description' => $validated['description'] ?? null,
-            'instructions' => $instructions,
-            'servings' => $validated['servings'],
-            'last_made' => $validated['last_made'] ?? null,
-            'photo' => $validated['photo'] ?? null,
-        ]);
+        DB::transaction(function () use ($validated, $instructions) {
+            $recipe = Recipe::create([
+                'name' => $validated['name'],
+                'description' => $validated['description'] ?? null,
+                'instructions' => $instructions,
+                'servings' => $validated['servings'],
+                'last_made' => $validated['last_made'] ?? null,
+                'photo' => $validated['photo'] ?? null,
+            ]);
 
-        // Attach categories
-        $recipe->categories()->sync($validated['category_ids']);
+            // Attach categories
+            $recipe->categories()->sync($validated['category_ids']);
 
-        // Create ingredients
-        if (!empty($validated['ingredients'])) {
-            foreach ($validated['ingredients'] as $ingredientData) {
-                if (!empty($ingredientData['name'])) {
-                    $recipe->ingredients()->create([
-                        'section' => $ingredientData['section'] ?? null,
-                        'name' => $ingredientData['name'],
-                        'quantity' => $ingredientData['quantity'] ?? null,
-                        'unit' => $ingredientData['unit'] ?? null,
-                    ]);
+            // Create ingredients
+            if (!empty($validated['ingredients'])) {
+                foreach ($validated['ingredients'] as $ingredientData) {
+                    if (!empty($ingredientData['name'])) {
+                        $recipe->ingredients()->create([
+                            'section' => $ingredientData['section'] ?? null,
+                            'name' => $ingredientData['name'],
+                            'quantity' => $ingredientData['quantity'] ?? null,
+                            'unit' => $ingredientData['unit'] ?? null,
+                        ]);
+                    }
                 }
             }
-        }
+        });
 
         return redirect()
             ->route('admin.recipes.index')
@@ -143,39 +146,40 @@ class RecipeController extends Controller
 
         unset($validated['remove_photo']);
 
-        // Sanitize instructions HTML - allow tags from Quill editor
+        // Sanitize instructions HTML
         $instructions = $validated['instructions'] ?? null;
         if ($instructions) {
-            $allowedTags = '<p><br><strong><em><b><i><u><s><ul><ol><li><a><h1><h2><h3><h4><h5><h6><blockquote><img><span>';
-            $instructions = strip_tags($instructions, $allowedTags);
+            $instructions = Purifier::clean($instructions);
         }
 
-        $recipe->update([
-            'name' => $validated['name'],
-            'description' => $validated['description'] ?? null,
-            'instructions' => $instructions,
-            'servings' => $validated['servings'],
-            'last_made' => $validated['last_made'] ?? null,
-            'photo' => $validated['photo'] ?? $recipe->photo,
-        ]);
+        DB::transaction(function () use ($recipe, $validated, $instructions) {
+            $recipe->update([
+                'name' => $validated['name'],
+                'description' => $validated['description'] ?? null,
+                'instructions' => $instructions,
+                'servings' => $validated['servings'],
+                'last_made' => $validated['last_made'] ?? null,
+                'photo' => $validated['photo'] ?? $recipe->photo,
+            ]);
 
-        // Sync categories
-        $recipe->categories()->sync($validated['category_ids']);
+            // Sync categories
+            $recipe->categories()->sync($validated['category_ids']);
 
-        // Update ingredients
-        $recipe->ingredients()->delete();
-        if (!empty($validated['ingredients'])) {
-            foreach ($validated['ingredients'] as $ingredientData) {
-                if (!empty($ingredientData['name'])) {
-                    $recipe->ingredients()->create([
-                        'section' => $ingredientData['section'] ?? null,
-                        'name' => $ingredientData['name'],
-                        'quantity' => $ingredientData['quantity'] ?? null,
-                        'unit' => $ingredientData['unit'] ?? null,
-                    ]);
+            // Update ingredients
+            $recipe->ingredients()->delete();
+            if (!empty($validated['ingredients'])) {
+                foreach ($validated['ingredients'] as $ingredientData) {
+                    if (!empty($ingredientData['name'])) {
+                        $recipe->ingredients()->create([
+                            'section' => $ingredientData['section'] ?? null,
+                            'name' => $ingredientData['name'],
+                            'quantity' => $ingredientData['quantity'] ?? null,
+                            'unit' => $ingredientData['unit'] ?? null,
+                        ]);
+                    }
                 }
             }
-        }
+        });
 
         return redirect()
             ->route('admin.recipes.index')

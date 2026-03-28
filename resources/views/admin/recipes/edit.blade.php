@@ -179,7 +179,7 @@
             <!-- Instructions Section -->
             <div class="mb-6">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Instructions</label>
-                <div id="instructions-editor" class="bg-white border border-gray-300 rounded-md" style="height: 300px;">{!! old('instructions', $recipe->instructions) !!}</div>
+                <div id="instructions-editor" class="bg-white border border-gray-300 rounded-md" style="height: 300px;"></div>
                 <input type="hidden" name="instructions" id="instructions-input">
                 @error('instructions')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -221,10 +221,14 @@
         }
     });
 
+    // Restore content
+    const savedInstructions = @json(old('instructions', $recipe->instructions ?? ''));
+    if (savedInstructions) {
+        quill.root.innerHTML = savedInstructions;
+    }
+
     // Sync Quill content to hidden input
     const instructionsInput = document.getElementById('instructions-input');
-    
-    // Initialize hidden input with current content
     instructionsInput.value = quill.root.innerHTML;
     
     // Sync on every change
@@ -244,8 +248,8 @@
         const container = document.getElementById('ingredients-container');
         const rows = container.querySelectorAll('.ingredient-row');
         const lastRow = rows[rows.length - 1];
-        const lastSection = lastRow ? lastRow.querySelector('input[name*="[section]"]').value : '';
-        
+        const lastSection = lastRow ? lastRow.querySelector('input[name*="[section]"]').value.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])) : '';
+
         const row = document.createElement('div');
         row.className = 'ingredient-row flex gap-3 items-start';
         

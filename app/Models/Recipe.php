@@ -32,13 +32,13 @@ class Recipe extends Model
 
         static::creating(function ($recipe) {
             if (empty($recipe->slug)) {
-                $recipe->slug = Str::slug($recipe->name);
+                $recipe->slug = Str::slug($recipe->name, '-', 'bg');
             }
         });
 
         static::updating(function ($recipe) {
             if ($recipe->isDirty('name') && !$recipe->isDirty('slug')) {
-                $recipe->slug = Str::slug($recipe->name);
+                $recipe->slug = Str::slug($recipe->name, '-', 'bg');
             }
         });
     }
