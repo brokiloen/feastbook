@@ -33,7 +33,7 @@ class RecipeController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:recipes,name',
             'description' => 'nullable|string',
             'instructions' => 'nullable|string',
             'servings' => 'required|integer|min:1',
@@ -109,7 +109,7 @@ class RecipeController extends Controller
     public function update(Request $request, Recipe $recipe): RedirectResponse
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:recipes,name,' . $recipe->id,
             'description' => 'nullable|string',
             'instructions' => 'nullable|string',
             'servings' => 'required|integer|min:1',
