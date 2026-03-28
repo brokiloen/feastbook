@@ -227,7 +227,7 @@
     // Restore content
     const savedInstructions = @json(old('instructions', $recipe->instructions ?? ''));
     if (savedInstructions) {
-        quill.root.innerHTML = savedInstructions;
+        quill.clipboard.dangerouslyPasteHTML(savedInstructions);
     }
 
     // Sync Quill content to hidden input

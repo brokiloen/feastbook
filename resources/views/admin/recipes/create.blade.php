@@ -181,7 +181,7 @@
     // Restore old content if validation failed
     const oldInstructions = @json(old('instructions', ''));
     if (oldInstructions) {
-        quill.root.innerHTML = oldInstructions;
+        quill.clipboard.dangerouslyPasteHTML(oldInstructions);
     }
 
     // Sync Quill content to hidden input
