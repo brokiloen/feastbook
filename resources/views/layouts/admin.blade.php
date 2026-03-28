@@ -12,27 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        parchment: '#f4e4bc',
-                        burgundy: '#722f37',
-                        'burgundy-dark': '#5a252c',
-                        wood: '#3d2314',
-                        gold: '#c9a227',
-                    },
-                    fontFamily: {
-                        'medieval': ['Cinzel', 'serif'],
-                        'sans': ['Inter', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="font-sans bg-gray-100 text-gray-900 antialiased min-h-screen">
     <div class="min-h-screen flex">

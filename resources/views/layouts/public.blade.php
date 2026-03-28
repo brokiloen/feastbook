@@ -12,117 +12,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        parchment: '#f4e4bc',
-                        'parchment-dark': '#e8d4a8',
-                        burgundy: '#722f37',
-                        'burgundy-dark': '#5a252c',
-                        wood: '#3d2314',
-                        'wood-light': '#5c3a2d',
-                        gold: '#c9a227',
-                        'gold-light': '#dbb84d',
-                    },
-                    fontFamily: {
-                        'logo': ['Cinzel', 'serif'],
-                        'medieval': ['Cormorant Garamond', 'serif'],
-                        'medieval-bg': ['Cormorant Garamond', 'serif'],
-                        'body': ['Crimson Text', 'serif'],
-                    },
-                }
-            }
-        }
-    </script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <style>
-        body {
-            background-color: #f4e4bc;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4c4a0' fill-opacity='0.3'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        }
         .header-banner {
             background: url('{{ asset("images/header.webp") }}');
             background-size: cover;
             background-position: center;
         }
-        .recipe-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .recipe-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(61, 35, 20, 0.3);
-        }
-        /* Quill editor content styles */
-        .recipe-instructions {
-            font-family: 'Crimson Text', serif;
-            font-size: 1.125rem;
-            line-height: 1.75rem;
-            color: rgba(61, 35, 20, 0.8);
-        }
-        .recipe-instructions p {
-            margin-bottom: 1rem;
-        }
-        .recipe-instructions h1, .recipe-instructions h2, .recipe-instructions h3 {
-            font-family: 'Cormorant Garamond', serif;
-            color: #3d2314;
-            margin-top: 1.5rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-        .recipe-instructions h1 { font-size: 2rem; }
-        .recipe-instructions h2 { font-size: 1.5rem; }
-        .recipe-instructions h3 { font-size: 1.25rem; }
-        .recipe-instructions ul, .recipe-instructions ol {
-            margin-left: 1.5rem;
-            margin-bottom: 1rem;
-            list-style-position: outside;
-        }
-        .recipe-instructions ul {
-            list-style-type: disc;
-        }
-        .recipe-instructions ol {
-            list-style-type: decimal;
-        }
-        .recipe-instructions li {
-            margin-bottom: 0.5rem;
-            color: rgba(61, 35, 20, 0.8);
-        }
-        .recipe-instructions ol li::marker,
-        .recipe-instructions ul li::marker {
-            color: #3d2314;
-            font-weight: 600;
-        }
-        .recipe-instructions a {
-            color: #722f37;
-            text-decoration: underline;
-        }
-        .recipe-instructions a:hover {
-            color: #5a252c;
-        }
-        .recipe-instructions blockquote {
-            border-left: 4px solid #c9a227;
-            padding-left: 1rem;
-            margin-left: 0;
-            margin-bottom: 1rem;
-            font-style: italic;
-            color: rgba(61, 35, 20, 0.7);
-        }
-        .recipe-instructions strong {
-            font-weight: 600;
-            color: #3d2314;
-        }
-        .recipe-instructions img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 0.5rem;
-            margin: 1rem 0;
-        }
     </style>
 </head>
-<body class="font-body text-wood antialiased min-h-screen">
+<body class="parchment-bg font-body text-wood antialiased min-h-screen">
     <!-- Navigation -->
     <nav class="bg-parchment/95 backdrop-blur-sm border-b border-parchment-dark/30 shadow-sm">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
